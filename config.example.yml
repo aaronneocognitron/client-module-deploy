@@ -1,0 +1,19 @@
+Utils:
+  AsterizmTranslator:
+    Host: https://tr.asterizm.io
+    ApiKey: "13b7AYfdKsYqQiQa7Bv9twgeQzLhZAayTXK8MbqQ1d9Kcw49"
+Nodes:
+  List:
+    ETH:
+      RPC: https://eth-rpc.com # chain rpc
+      ChainId: "1" # chain id
+      ContractAddress: contractAddress # client contract address
+      OwnerAddress: ownerAddress # owner address example
+      OwnerPrivateKey: ownerPrivateKey # owner private key example
+    EVER:
+      RPC: https://ever-rpc.com # chain rpc
+      ChainId: "20001" # chain id
+      ContractAddress: contractAddress # client contract address
+      OwnerAddress: ownerAddress # owner address example
+      OwnerPrivateKey: ownerPrivateKey # owner private key example
+      OwnerPublicKey: ownerPublicKey # owner public key example
