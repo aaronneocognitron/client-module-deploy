@@ -68,8 +68,6 @@ Nodes:
     ETH:
       # RPC URL, mandatory; builder will fail if absent
       RPC: https://rpc-url
-      # Chain Id, mandatory; builder will fail if absent
-      ChainId: chainId
       # Deployed client contract address, mandatory; builder will fail if absent
       ContractAddress: contractAddress
       # Address for transmitting information to the blockchain, mandatory; builder will fail if absent

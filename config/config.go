@@ -34,7 +34,6 @@ type AsterizmTranslator struct {
 
 type Node struct {
 	RPC                  string `yaml:"RPC"`
-	ChainId              string `yaml:"ChainId"`
 	ContractAddress      string `yaml:"ContractAddress"`
 	OwnerAddress         string `yaml:"OwnerAddress"`
 	OwnerPublicKey       string `yaml:"OwnerPublicKey,omitempty"`
@@ -136,10 +135,6 @@ func ParseAndRefreshConfig(dockerDbHost, configFile string) (*Config, error) {
 	for key, node := range config.Nodes.List {
 		if node.RPC == "" {
 			return nil, fmt.Errorf("please, fill Nodes.List.%s.RPC", key)
-		}
-
-		if node.ChainId == "" {
-			return nil, fmt.Errorf("please, fill Nodes.List.%s.ChainId", key)
 		}
 
 		if node.ContractAddress == "" {
