@@ -89,6 +89,13 @@ Nodes:
       # If the field is set to 5, the program will make 5 attempts; if it fails on the 5th attempt, no further retries will be made
       # Optional field, default is 3 attempts
       MaxResendTries: 3
+      # For example, the translator received a transfer, but the commission was not enough
+      # This can happen if the gas rate has increased in the destination network
+      # The program will send a request to the translator and find out the status of the transfer
+      # If the translator returns an error related to the lack of commission, the program will try to resend the commission
+      # If the field is set to 5, the program will make 5 attempts; if it fails on the 5th attempt, no further retries will be made
+      # Optional field, default is 0 attempts
+      MaxOutOfGasResendTries: 0
       # This field indicates the percentage increase in the transaction fee.
       # For example, the program calculates a transaction fee for sending to the blockchain, but gas prices surge at the time of sending.
       # You can specify a percentage increase in the fee to account for the potential spike in gas prices

@@ -33,13 +33,14 @@ type AsterizmTranslator struct {
 }
 
 type Node struct {
-	RPC                  string `yaml:"RPC"`
-	ContractAddress      string `yaml:"ContractAddress"`
-	OwnerAddress         string `yaml:"OwnerAddress"`
-	OwnerPublicKey       string `yaml:"OwnerPublicKey,omitempty"`
-	OwnerPrivateKey      string `yaml:"OwnerPrivateKey"`
-	MaxResendTries       int    `yaml:"MaxResendTries,omitempty"`
-	FeeMultiplierPercent uint   `yaml:"FeeMultiplierPercent,omitempty"`
+	RPC                    string `yaml:"RPC"`
+	ContractAddress        string `yaml:"ContractAddress"`
+	OwnerAddress           string `yaml:"OwnerAddress"`
+	OwnerPublicKey         string `yaml:"OwnerPublicKey,omitempty"`
+	OwnerPrivateKey        string `yaml:"OwnerPrivateKey"`
+	MaxResendTries         int    `yaml:"MaxResendTries,omitempty"`
+	MaxOutOfGasResendTries int    `yaml:"MaxOutOfGasResendTries,omitempty"`
+	FeeMultiplierPercent   uint   `yaml:"FeeMultiplierPercent,omitempty"`
 }
 
 type Utils struct {
