@@ -7,10 +7,10 @@ import (
 )
 
 const (
-	DbHost          = "asterizm-db"
-	AsterizmConsole = "asterizm-console"
-	AsterizmCron    = "asterizm-cron"
-	AsterizmScanner = "asterizm-scanner-%s"
+	DbHost          = "asterizm-cs-db"
+	AsterizmConsole = "asterizm-cs-console"
+	AsterizmCron    = "asterizm-cs-cron"
+	AsterizmScanner = "asterizm-cs-scanner-%s"
 )
 
 type Service struct {
@@ -34,8 +34,8 @@ type DockerCompose struct {
 }
 
 func InitFromConfig(configPath string, config *config.Config) *DockerCompose {
-	asterizmNetwork := "asterizm"
-	dbDataVolume := "dbdata"
+	asterizmNetwork := "asterizm-cs"
+	dbDataVolume := "aterizm-cs-dbdata"
 
 	asterizmImage := "asterizm/client-server:latest"
 	configVolume := configPath + ":" + "/app/config.yml:rw"

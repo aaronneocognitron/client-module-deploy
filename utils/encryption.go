@@ -125,6 +125,9 @@ func (e *Encryptor) Decrypt(encryptedText []byte, key string, salt string) ([]by
 	}
 
 	c := dbuf[:n]
+	if len(c) < (ivLen + sha2len) {
+		return nil, fmt.Errorf("bad decrypted lenght")
+	}
 
 	ciphertext := c[ivLen+sha2len:]
 	iv := c[:ivLen]

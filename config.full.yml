@@ -13,10 +13,6 @@ Environment:
 Utils:
   # Encryption block is mandatory, but the builder will generate it if absent
   Encryption:
-    # Whether to encrypt the transmitted information from InitiateTransferEvent on the server side.
-    # Recommended to encrypt
-    # Optional parameter, default is false
-    EncryptPayload: true
     # Encryption key; can be generated on your side or the builder will generate it
     # Mandatory parameter
     Key: key
@@ -41,17 +37,8 @@ Utils:
     User: user
     # Database password; mandatory field, the builder will generate it if absent
     Password: password
-  # Relay configuration block, mandatory; builder will fail if absent
-  AsterizmTranslator:
-    # Relay host
-    Host: https://tr.asterizm.io
-    # Relay API key
-    ApiKey: "13b7AYfdKsYqQiQa7Bv9twgeQzLhZAayTXK8MbqQ1d9Kcw49"
 # Node Configuration Block
 Nodes:
-  # Optional field. If true, events will be sent sorted by the Nonce field; default is false
-  # If absent, the builder will set a default value
-  ForceOrder: false
   # Structure of transmitted ABI information; the structure must match the transmitted information in exact order
   # Field is mandatory only if you're transmitting information between networks with different virtual machines
   # For example, if transmitting from ETH to BSC, the field is optional. But if from ETH to EVER, the field is mandatory.

@@ -13,10 +13,9 @@ type Environment struct {
 }
 
 type Encryption struct {
-	EncryptPayload bool   `yaml:"EncryptPayload"`
-	Key            string `yaml:"Key"`
-	Salt           string `yaml:"Salt"`
-	CipherMethod   string `yaml:"CipherMethod"`
+	Key          string `yaml:"Key"`
+	Salt         string `yaml:"Salt"`
+	CipherMethod string `yaml:"CipherMethod"`
 }
 
 type Db struct {
@@ -25,11 +24,6 @@ type Db struct {
 	Name     string `yaml:"Name"`
 	User     string `yaml:"User"`
 	Password string `yaml:"Password"`
-}
-
-type AsterizmTranslator struct {
-	Host   string `yaml:"Host"`
-	ApiKey string `yaml:"ApiKey"`
 }
 
 type Node struct {
@@ -44,16 +38,14 @@ type Node struct {
 }
 
 type Utils struct {
-	Encryption         *Encryption        `yaml:"Encryption"`
-	Db                 *Db                `yaml:"Db"`
-	AsterizmTranslator AsterizmTranslator `yaml:"AsterizmTranslator"`
+	Encryption *Encryption `yaml:"Encryption"`
+	Db         *Db         `yaml:"Db"`
 }
 
 type Config struct {
 	Environment Environment `yaml:"Environment"`
 	Utils       Utils       `yaml:"Utils"`
 	Nodes       struct {
-		ForceOrder    bool            `yaml:"ForceOrder"`
 		PayloadStruct []string        `yaml:"PayloadStruct"`
 		List          map[string]Node `yaml:"List"`
 	} `yaml:"Nodes"`
@@ -72,23 +64,13 @@ func ParseAndRefreshConfig(dockerDbHost, configFile string) (*Config, error) {
 		return nil, fmt.Errorf("error unmarshaling yaml: %w", err)
 	}
 
-	if config.Utils.AsterizmTranslator.Host == "" {
-		return nil, errors.New("please, fill Utils.AsterizmTranslator.Host")
-	}
-
-	if config.Utils.AsterizmTranslator.ApiKey == "" {
-		return nil, errors.New("please, fill Utils.AsterizmTranslator.ApiKey")
-	}
-
 	if config.Environment.LogLevel == "" {
 		config.Environment.LogLevel = "INFO"
 	}
 
 	// generate encryption
 	if config.Utils.Encryption == nil {
-		config.Utils.Encryption = &Encryption{
-			EncryptPayload: true,
-		}
+		config.Utils.Encryption = &Encryption{}
 	}
 
 	if config.Utils.Encryption.Key == "" {
@@ -120,8 +102,8 @@ func ParseAndRefreshConfig(dockerDbHost, configFile string) (*Config, error) {
 		config.Utils.Db = &Db{
 			Host:     dockerDbHost,
 			Port:     5432,
-			Name:     "asterizm",
-			User:     "asterizm",
+			Name:     "asterizm-cs",
+			User:     "asterizm-cs",
 			Password: password,
 		}
 	}

@@ -27,7 +27,6 @@ if [ ! -x "$(command -v docker)" ]; then
   apt update -y
   apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-  # add user to docker group TODO test
   usermod -aG docker $user
   service docker restart
 fi

@@ -1,7 +1,3 @@
-Utils:
-  AsterizmTranslator:
-    Host: https://tr.asterizm.io
-    ApiKey: "13b7AYfdKsYqQiQa7Bv9twgeQzLhZAayTXK8MbqQ1d9Kcw49"
 Nodes:
   List:
     ETH:
