@@ -27,14 +27,14 @@ type Db struct {
 }
 
 type Node struct {
-	RPC                    string `yaml:"RPC"`
-	ContractAddress        string `yaml:"ContractAddress"`
-	OwnerAddress           string `yaml:"OwnerAddress"`
-	OwnerPublicKey         string `yaml:"OwnerPublicKey,omitempty"`
-	OwnerPrivateKey        string `yaml:"OwnerPrivateKey"`
-	MaxResendTries         int    `yaml:"MaxResendTries,omitempty"`
-	MaxOutOfGasResendTries int    `yaml:"MaxOutOfGasResendTries,omitempty"`
-	FeeMultiplierPercent   uint   `yaml:"FeeMultiplierPercent,omitempty"`
+	RPC                    string  `yaml:"RPC"`
+	ContractAddress        string  `yaml:"ContractAddress"`
+	OwnerAddress           *string `yaml:"OwnerAddress,omitempty"`
+	OwnerPublicKey         *string `yaml:"OwnerPublicKey,omitempty"`
+	OwnerPrivateKey        *string `yaml:"OwnerPrivateKey,omitempty"`
+	MaxResendTries         int     `yaml:"MaxResendTries,omitempty"`
+	MaxOutOfGasResendTries int     `yaml:"MaxOutOfGasResendTries,omitempty"`
+	FeeMultiplierPercent   uint    `yaml:"FeeMultiplierPercent,omitempty"`
 }
 
 type Utils struct {
@@ -112,7 +112,6 @@ func ParseAndRefreshConfig(dockerDbHost, configFile string) (*Config, error) {
 		return nil, errors.New("please, fill Nodes.List")
 	}
 
-	encryptor := utils.NewEncryptor(config.Utils.Encryption.Key, config.Utils.Encryption.Salt, config.Utils.Encryption.CipherMethod)
 	newList := make(map[string]Node, len(config.Nodes.List))
 
 	for key, node := range config.Nodes.List {
@@ -122,43 +121,6 @@ func ParseAndRefreshConfig(dockerDbHost, configFile string) (*Config, error) {
 
 		if node.ContractAddress == "" {
 			return nil, fmt.Errorf("please, fill Nodes.List.%s.ContractAddress", key)
-		}
-
-		if node.OwnerAddress == "" {
-			return nil, fmt.Errorf("please, fill Nodes.List.%s.OwnerAddress", key)
-		}
-
-		if node.OwnerPrivateKey == "" {
-			return nil, fmt.Errorf("please, fill Nodes.List.%s.OwnerPrivateKey", key)
-		}
-
-		if _, err := encryptor.Decrypt([]byte(node.OwnerAddress), "", ""); err != nil {
-			// owner address haven't encrypted before
-			encrypted, err := encryptor.Encrypt([]byte(node.OwnerAddress), "", "")
-			if err != nil {
-				return nil, fmt.Errorf("encrypt owner address: %w", err)
-			}
-			node.OwnerAddress = string(encrypted)
-		}
-
-		if _, err := encryptor.Decrypt([]byte(node.OwnerPrivateKey), "", ""); err != nil {
-			// owner private key haven't encrypted before
-			encrypted, err := encryptor.Encrypt([]byte(node.OwnerPrivateKey), "", "")
-			if err != nil {
-				return nil, fmt.Errorf("encrypt owner private key: %w", err)
-			}
-			node.OwnerPrivateKey = string(encrypted)
-		}
-
-		if node.OwnerPublicKey != "" {
-			if _, err := encryptor.Decrypt([]byte(node.OwnerPublicKey), "", ""); err != nil {
-				// owner public key haven't encrypted before
-				encrypted, err := encryptor.Encrypt([]byte(node.OwnerPublicKey), "", "")
-				if err != nil {
-					return nil, fmt.Errorf("encrypt owner public key: %w", err)
-				}
-				node.OwnerPublicKey = string(encrypted)
-			}
 		}
 
 		newList[key] = node

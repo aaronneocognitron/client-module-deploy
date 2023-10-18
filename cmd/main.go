@@ -51,6 +51,30 @@ func main() {
 		os.Exit(1)
 	}
 
+	nodeList := make(map[string]config.Node)
+	for k, v := range refreshedConfig.Nodes.List {
+		if v.OwnerAddress == nil {
+			continue
+		}
+
+		if v.OwnerPrivateKey == nil {
+			continue
+		}
+
+		nodeList[k] = config.Node{
+			OwnerAddress:    v.OwnerAddress,
+			OwnerPrivateKey: v.OwnerPrivateKey,
+			OwnerPublicKey:  v.OwnerPublicKey,
+		}
+
+		if node, ok := refreshedConfig.Nodes.List[k]; ok {
+			node.OwnerAddress = nil
+			node.OwnerPrivateKey = nil
+			node.OwnerPublicKey = nil
+			refreshedConfig.Nodes.List[k] = node
+		}
+	}
+
 	yml, err := yaml.Marshal(refreshedConfig)
 	if err != nil {
 		fmt.Printf("Marshal config error: %v \n", err)
@@ -93,6 +117,16 @@ func main() {
 	if *isTest {
 		commands[len(commands)-1] += " --test" // add test to db/seed
 	}
+
+	for k, v := range nodeList {
+		command := fmt.Sprintf("docker exec -t %s ./main owners/add %s %s %s", dockercompose.AsterizmConsole, k, *v.OwnerAddress, *v.OwnerPrivateKey)
+		if v.OwnerPublicKey != nil {
+			command += " " + *v.OwnerPublicKey
+		}
+
+		commands = append(commands, command)
+	}
+
 	commands = append(commands, fmt.Sprintf("docker compose -f %s up -d", dockerComposePath))
 
 	for i, command := range commands {
