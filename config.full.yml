@@ -90,3 +90,11 @@ Nodes:
       # If FeeMultiplierPercent is set to 100, the fee will double; if set to 0, no fee increase will occur
       # Optional field, default is 0; recommended value is 20
       FeeMultiplierPercent: 100
+      # Include this section if you are using Fireblocks
+      Fireblocks:
+        # Fireblocks signer api key
+        ApiKey: "00000000-0000-0000-0000-000000000000"
+        # Path to Fireblocks signer secret key
+        SecretPath: "./fireblocks_secret.rsa"
+        # Fireblock vault accounts ids. They will be used based on the mempool load
+        VaultAccountIds: ["0", "1"]

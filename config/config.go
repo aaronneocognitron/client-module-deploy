@@ -26,15 +26,22 @@ type Db struct {
 	Password string `yaml:"Password"`
 }
 
+type Fireblocks struct {
+	ApiKey          string   `yaml:"ApiKey"`
+	SecretPath      string   `yaml:"SecretPath"`
+	VaultAccountIds []string `yaml:"VaultAccountIds"`
+}
+
 type Node struct {
-	RPC                    string  `yaml:"RPC"`
-	ContractAddress        string  `yaml:"ContractAddress"`
-	OwnerAddress           *string `yaml:"OwnerAddress,omitempty"`
-	OwnerPublicKey         *string `yaml:"OwnerPublicKey,omitempty"`
-	OwnerPrivateKey        *string `yaml:"OwnerPrivateKey,omitempty"`
-	MaxResendTries         int     `yaml:"MaxResendTries,omitempty"`
-	MaxOutOfGasResendTries int     `yaml:"MaxOutOfGasResendTries,omitempty"`
-	FeeMultiplierPercent   uint    `yaml:"FeeMultiplierPercent,omitempty"`
+	RPC                    string      `yaml:"RPC"`
+	ContractAddress        string      `yaml:"ContractAddress"`
+	OwnerAddress           *string     `yaml:"OwnerAddress,omitempty"`
+	OwnerPublicKey         *string     `yaml:"OwnerPublicKey,omitempty"`
+	OwnerPrivateKey        *string     `yaml:"OwnerPrivateKey,omitempty"`
+	MaxResendTries         int         `yaml:"MaxResendTries,omitempty"`
+	MaxOutOfGasResendTries int         `yaml:"MaxOutOfGasResendTries,omitempty"`
+	FeeMultiplierPercent   uint        `yaml:"FeeMultiplierPercent,omitempty"`
+	Fireblocks             *Fireblocks `yaml:"Fireblocks,omitempty"`
 }
 
 type Utils struct {
