@@ -52,24 +52,39 @@ Nodes:
     # Builder will fail if the list is empty
     # Supported EVM networks: ETH, POL, OPT, AUR, FTM, CEL, AVA, ARB, BOB, BSC, XVM, PZK, BTG
     # Supported TVM networks: EVER, VNM
+    # Supported TON networks: TON
+    # Supported SOL networks: SOL
     ETH:
       # RPC URL, mandatory; builder will fail if absent
       RPC: https://rpc-url
       # Deployed client contract address, mandatory; builder will fail if absent
       ContractAddress: contractAddress
-      # Address for transmitting information to the blockchain, mandatory; builder will fail if absent
-      # Note: The address must be encrypted using the 'utils/encrypt' command (encryption keys and method from Utils.Encryption)
-      # Builder will automatically encrypt the address if it's not encrypted
-      OwnerAddress: ownerAddress
       # Private key for transmitting information to the blockchain, mandatory; builder will fail if absent
       # Note: The private key must be encrypted using the 'utils/encrypt' command (encryption keys and method from Utils.Encryption)
       # Builder will automatically encrypt the private key if it's not encrypted
       OwnerPrivateKey: ownerPrivateKey
       # Applicable only to TVM networks
       # Public key for transmitting information to the blockchain, mandatory; builder will fail if absent
-      # Note: The public key must be encrypted using the 'utils/encrypt' command (encryption keys and method from Utils.Encryption)
-      # Builder will automatically encrypt the public key if it's not encrypted
       OwnerPublicKey: ownerPublicKey
+      # Applicable only to TON network
+      # Supported types: v3r1/v3r2/highloadv3/v4r1/v4r2/v5r1
+      OwnerWalletType: v4r2
+      # Applicable only to SOL network
+      TokenProgramId: tokenProgramId
+      # Applicable only to SOL network
+      TokenName: tokenName
+      # Applicable only to SOL network
+      ClientProgramId: clientProgramId
+      # Applicable only to SOL network
+      ClientUserAddress: clientUserAddress
+      # Applicable only to SOL network
+      InitializerProgramId: initializerProgramId
+      # Applicable only to SOL network
+      RelayerProgramId: relayerProgramId
+      # Applicable only to SOL network
+      SystemRelayOwnerAddress: systemRelayOwnerAddress
+      # Applicable only to SOL network
+      RelayOwnerAddress: relayOwnerAddress
       # This field specifies how many times to attempt resending the event transaction to the translator
       # For instance, if the program receives an event with information and sends it to the translator, but gas prices unexpectedly surge at the time of sending, causing the transaction to be stuck in the mempool.
       # If the transaction remains in the mempool for longer than the average transaction confirmation time (e.g., 5 minutes for Ethereum), the program will attempt to resend the transaction.

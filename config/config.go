@@ -33,11 +33,32 @@ type Fireblocks struct {
 }
 
 type Node struct {
-	RPC                    string      `yaml:"RPC"`
-	ContractAddress        string      `yaml:"ContractAddress"`
-	OwnerAddress           *string     `yaml:"OwnerAddress,omitempty"`
-	OwnerPublicKey         *string     `yaml:"OwnerPublicKey,omitempty"`
-	OwnerPrivateKey        *string     `yaml:"OwnerPrivateKey,omitempty"`
+	RPC string `yaml:"RPC"`
+
+	// ton only
+	ArchiveRpc *string `yaml:"ArchiveRPC"`
+
+	// all expect solana
+	ContractAddress *string `yaml:"ContractAddress"`
+
+	OwnerPrivateKey *string `yaml:"OwnerPrivateKey,omitempty"`
+
+	// everscale/venom only
+	OwnerPublicKey *string `yaml:"OwnerPublicKey,omitempty"`
+
+	// ton only
+	OwnerWalletType *string `yaml:"OwnerWalletType,omitempty"`
+
+	// solana only
+	TokenProgramId          *string `yaml:"TokenProgramId"`
+	TokenName               *string `yaml:"TokenName"`
+	ClientProgramId         *string `yaml:"ClientProgramId"`
+	ClientUserAddress       *string `yaml:"ClientUserAddress"`
+	InitializerProgramId    *string `yaml:"InitializerProgramId"`
+	RelayerProgramId        *string `yaml:"RelayerProgramId"`
+	SystemRelayOwnerAddress *string `yaml:"SystemRelayOwnerAddress"`
+	RelayOwnerAddress       *string `yaml:"RelayOwnerAddress"`
+
 	MaxResendTries         int         `yaml:"MaxResendTries,omitempty"`
 	MaxOutOfGasResendTries int         `yaml:"MaxOutOfGasResendTries,omitempty"`
 	FeeMultiplierPercent   uint        `yaml:"FeeMultiplierPercent,omitempty"`
@@ -122,15 +143,11 @@ func ParseAndRefreshConfig(dockerDbHost, configFile string) (*Config, error) {
 	newList := make(map[string]Node, len(config.Nodes.List))
 
 	for key, node := range config.Nodes.List {
+		newList[key] = node
+
 		if node.RPC == "" {
 			return nil, fmt.Errorf("please, fill Nodes.List.%s.RPC", key)
 		}
-
-		if node.ContractAddress == "" {
-			return nil, fmt.Errorf("please, fill Nodes.List.%s.ContractAddress", key)
-		}
-
-		newList[key] = node
 	}
 
 	config.Nodes.List = newList

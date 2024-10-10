@@ -11,3 +11,10 @@ Nodes:
       OwnerAddress: ownerAddress # owner address example
       OwnerPrivateKey: ownerPrivateKey # owner private key example
       OwnerPublicKey: ownerPublicKey # owner public key example
+
+    Ton:
+      RPC: https://ever-rpc.com # chain rpc
+      ContractAddress: contractAddress # client contract address
+      OwnerAddress: ownerAddress # owner address example
+      OwnerPrivateKey: ownerPrivateKey # owner private key example
+      OwnerPublicKey: ownerPublicKey # owner public key example

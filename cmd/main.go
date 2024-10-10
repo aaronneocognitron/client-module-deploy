@@ -53,24 +53,20 @@ func main() {
 
 	nodeList := make(map[string]config.Node)
 	for k, v := range refreshedConfig.Nodes.List {
-		if v.OwnerAddress == nil {
-			continue
-		}
-
 		if v.OwnerPrivateKey == nil {
 			continue
 		}
 
 		nodeList[k] = config.Node{
-			OwnerAddress:    v.OwnerAddress,
 			OwnerPrivateKey: v.OwnerPrivateKey,
 			OwnerPublicKey:  v.OwnerPublicKey,
+			OwnerWalletType: v.OwnerWalletType,
 		}
 
 		if node, ok := refreshedConfig.Nodes.List[k]; ok {
-			node.OwnerAddress = nil
 			node.OwnerPrivateKey = nil
 			node.OwnerPublicKey = nil
+			node.OwnerWalletType = nil
 			refreshedConfig.Nodes.List[k] = node
 		}
 	}
@@ -119,9 +115,17 @@ func main() {
 	}
 
 	for k, v := range nodeList {
-		command := fmt.Sprintf("docker exec -t %s ./main owners/add %s %s %s", dockercompose.AsterizmConsole, k, *v.OwnerAddress, *v.OwnerPrivateKey)
+		if v.OwnerPrivateKey == nil {
+			continue
+		}
+
+		command := fmt.Sprintf("docker exec -t %s ./main owners/add %s %s", dockercompose.AsterizmConsole, k, *v.OwnerPrivateKey)
 		if v.OwnerPublicKey != nil {
 			command += " " + *v.OwnerPublicKey
+		}
+
+		if v.OwnerWalletType != nil {
+			command += " " + *v.OwnerWalletType
 		}
 
 		commands = append(commands, command)
